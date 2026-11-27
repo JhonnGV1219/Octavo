@@ -92,7 +92,7 @@
 
     document.querySelectorAll('input[type="file"][data-preview]').forEach((input) => {
       if (window.jQuery && window.jQuery.fn.fileinput) {
-        window.jQuery(input).fileinput({showUpload:false,showRemove:true,previewFileType:"image",allowedFileExtensions:["jpg","jpeg","png","pdf"]});
+        window.jQuery(input).fileinput({language:"es",showUpload:false,showRemove:true,previewFileType:"image",allowedFileExtensions:["jpg","jpeg","png","pdf"]});
       }
     });
 
