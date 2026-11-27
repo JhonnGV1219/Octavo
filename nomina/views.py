@@ -77,7 +77,8 @@ def _list(request, entity):
     return render(request, "principal/entity_list.html", {
         "entity": entity, "entity_label": config["label"], "entity_plural": config["plural"],
         "headers": config["headers"], "rows": rows, "query": query,
-        "create_url": f"/{entity_route(entity)}/nueva/",
+        create_suffix = "nuevo" if entity in ("canton", "estudiante") else "nueva"
+        "create_url": f"/{entity_route(entity)}/{create_suffix}/",
         "list_url": f"/{entity_route(entity)}/", "active_menu": entity,
     })
 
