@@ -1,0 +1,36 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Editar Cantón</h2>
+
+<form action="{% url 'procesarActualizacionCanton' %}" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" name="id_canton"
+           value="{{ miCanton.id_canton }}">
+
+    <label>Nombre del Cantón:</label>
+    <input type="text" name="nombre_canton"
+           value="{{ miCanton.nombre_canton }}" required>
+
+    <label>Provincia:</label>
+    <select name="id_provincia" required>
+
+        {% for provincia in misProvincias %}
+        <option value="{{ provincia.id_provincia }}"
+            {% if miCanton.id_provincia_id == provincia.id_provincia %}
+                selected
+            {% endif %}>
+            {{ provincia.nombre_provincia }}
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <button type="submit">Actualizar Cantón</button>
+    <a href="{% url 'showCanton' %}">Cancelar</a>
+</form>
+
+{% endblock %}

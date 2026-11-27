@@ -1,0 +1,29 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Registrar Cantón</h2>
+
+<form action="{% url 'guardarCanton' %}" method="POST">
+    {% csrf_token %}
+
+    <label>Nombre del Cantón:</label>
+    <input type="text" name="nombre_canton" maxlength="100" required>
+
+    <label>Provincia:</label>
+    <select name="id_provincia" required>
+        <option value="">Seleccione una provincia</option>
+
+        {% for provincia in misProvincias %}
+        <option value="{{ provincia.id_provincia }}">
+            {{ provincia.nombre_provincia }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Guardar Cantón</button>
+    <a href="{% url 'showCanton' %}">Cancelar</a>
+</form>
+
+{% endblock %}

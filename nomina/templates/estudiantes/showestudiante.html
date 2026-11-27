@@ -1,0 +1,62 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Listado de Estudiantes</h2>
+
+<a href="{% url 'nuevoEstudiante' %}">Nuevo Estudiante</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Cédula</th>
+            <th>Cantón</th>
+            <th>Provincia</th>
+            <th>Dirección</th>
+            <th>Fecha Nacimiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for estudiante in misEstudiantes %}
+        <tr>
+            <td>{{ estudiante.id_est }}</td>
+            <td>{{ estudiante.apellido_est }}</td>
+            <td>{{ estudiante.nombre_est }}</td>
+            <td>{{ estudiante.cedula_est }}</td>
+            <td>{{ estudiante.id_canton.nombre_canton|default:"Sin cantón" }}</td>
+            <td>{{ estudiante.id_canton.id_provincia.nombre_provincia|default:"Sin provincia" }}</td>
+            <td>{{ estudiante.direccion_est }}</td>
+            <td>{{ estudiante.fecha_nacimiento_est|date:"d/m/Y" }}</td>
+            <td>{{ estudiante.estado_est }}</td>
+            <td>
+                <a href="{% url 'editarEstudiante' estudiante.id_est %}">
+                    Editar
+                </a>
+
+                <form action="{% url 'eliminarEstudiante' estudiante.id_est %}"
+                      method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit"
+                            onclick="return confirm('¿Está seguro de eliminar este estudiante?')">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="10">No existen estudiantes registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

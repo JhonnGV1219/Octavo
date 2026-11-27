@@ -1,0 +1,49 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Listado de Cantones</h2>
+
+<a href="{% url 'nuevoCanton' %}">Nuevo Cantón</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre Cantón</th>
+            <th>Provincia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for canton in misCantones %}
+        <tr>
+            <td>{{ canton.id_canton }}</td>
+            <td>{{ canton.nombre_canton }}</td>
+            <td>{{ canton.id_provincia.nombre_provincia|default:"Sin provincia" }}</td>
+            <td>
+                <a href="{% url 'editarCanton' canton.id_canton %}">
+                    Editar
+                </a>
+
+                <form action="{% url 'eliminarCanton' canton.id_canton %}"
+                      method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit"
+                            onclick="return confirm('¿Está seguro de eliminar este cantón?')">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No existen cantones registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

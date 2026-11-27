@@ -1,0 +1,68 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Editar Estudiante</h2>
+
+<form action="{% url 'procesarActualizacionEstudiante' %}" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" name="id_est"
+           value="{{ miEstudiante.id_est }}">
+
+    <label>Apellidos:</label>
+    <input type="text" name="apellido_est"
+           value="{{ miEstudiante.apellido_est }}" required>
+
+    <label>Nombres:</label>
+    <input type="text" name="nombre_est"
+           value="{{ miEstudiante.nombre_est }}" required>
+
+    <label>Cédula:</label>
+    <input type="text" name="cedula_est"
+           value="{{ miEstudiante.cedula_est }}"
+           maxlength="10" minlength="10"
+           pattern="[0-9]{10}" required>
+
+    <label>Cantón:</label>
+    <select name="id_canton" required>
+
+        {% for canton in misCantones %}
+        <option value="{{ canton.id_canton }}"
+            {% if miEstudiante.id_canton_id == canton.id_canton %}
+                selected
+            {% endif %}>
+            {{ canton.nombre_canton }}
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <label>Dirección:</label>
+    <textarea name="direccion_est" required>{{ miEstudiante.direccion_est }}</textarea>
+
+    <label>Fecha de nacimiento:</label>
+    <input type="date" name="fecha_nacimiento_est"
+           value="{{ miEstudiante.fecha_nacimiento_est|date:'Y-m-d' }}"
+           required>
+
+    <label>Estado:</label>
+    <select name="estado_est" required>
+        <option value="ACTIVO"
+            {% if miEstudiante.estado_est == 'ACTIVO' %}selected{% endif %}>
+            ACTIVO
+        </option>
+
+        <option value="INACTIVO"
+            {% if miEstudiante.estado_est == 'INACTIVO' %}selected{% endif %}>
+            INACTIVO
+        </option>
+    </select>
+
+    <button type="submit">Actualizar Estudiante</button>
+    <a href="{% url 'showEstudiante' %}">Cancelar</a>
+
+</form>
+
+{% endblock %}

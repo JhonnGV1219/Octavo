@@ -1,0 +1,47 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Listado de Provincias</h2>
+
+<a href="{% url 'nuevaProvincia' %}">Nueva Provincia</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre Provincia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for provincia in misProvincias %}
+        <tr>
+            <td>{{ provincia.id_provincia }}</td>
+            <td>{{ provincia.nombre_provincia }}</td>
+            <td>
+                <a href="{% url 'editarProvincia' provincia.id_provincia %}">
+                    Editar
+                </a>
+
+                <form action="{% url 'eliminarProvincia' provincia.id_provincia %}"
+                      method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit"
+                            onclick="return confirm('¿Está seguro de eliminar esta provincia?')">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No existen provincias registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

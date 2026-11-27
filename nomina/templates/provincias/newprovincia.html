@@ -1,0 +1,21 @@
+
+{% extends 'principal/plantillaPrincipal.html' %}
+
+{% block contenido %}
+
+<h2>Registrar Provincia</h2>
+
+<form action="{% url 'guardarProvincia' %}" method="POST">
+    {% csrf_token %}
+
+    <label>ID Provincia:</label>
+    <input type="number" name="id_provincia" required>
+
+    <label>Nombre Provincia:</label>
+    <input type="text" name="nombre_provincia" maxlength="100" required>
+
+    <button type="submit">Guardar Provincia</button>
+    <a href="{% url 'showProvincia' %}">Cancelar</a>
+</form>
+
+{% endblock %}
