@@ -141,7 +141,7 @@ class UniversidadForm(AccessibleModelForm):
         widget=forms.TextInput(attrs={"minlength": "2", "maxlength": "200", "autocomplete": "name"}),
     )
     estado_uni = forms.CharField(
-        required=True, min_length=2, max_length=25, label="Estado",
+        required=False, min_length=2, max_length=25, label="Estado",
         widget=forms.TextInput(attrs={"minlength": "2", "maxlength": "25", "placeholder": "Ej. ACTIVA"}),
     )
 
