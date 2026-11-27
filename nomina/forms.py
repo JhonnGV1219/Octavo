@@ -1,4 +1,3 @@
-import re
 from django import forms
 from django.utils import timezone
 from .models import TbProvincia, TbCanton, TbEstudiantes, TbUniversidades
@@ -19,7 +18,10 @@ class AccessibleModelForm(forms.ModelForm):
             else:
                 widget.attrs.setdefault("class", "form-control")
             widget.attrs.setdefault("autocomplete", "off")
-            widget.attrs.setdefault("aria-describedby", f"id_{name}_help")
+            if field.errors:
+                widget.attrs["class"] = "{} is-invalid".format(widget.attrs.get("class", "")).strip()
+            if name == "fecha_nacimiento_est":
+                widget.attrs.setdefault("max", timezone.localdate().isoformat())
 
 
 class ProvinciaForm(AccessibleModelForm):
