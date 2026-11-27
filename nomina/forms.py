@@ -20,6 +20,16 @@ class AccessibleModelForm(forms.ModelForm):
             widget.attrs.setdefault("autocomplete", "off")
             if name == "fecha_nacimiento_est":
                 widget.attrs.setdefault("max", timezone.localdate().isoformat())
+        if "id_provincia" in self.fields:
+            self.fields["id_provincia"].queryset = TbProvincia.objects.order_by("nombre_provincia")
+            self.fields["id_provincia"].required = True
+            self.fields["id_provincia"].empty_label = "Seleccione una provincia"
+        if "id_canton" in self.fields:
+            self.fields["id_canton"].queryset = TbCanton.objects.select_related("id_provincia").order_by("nombre_canton")
+            self.fields["id_canton"].required = True
+            self.fields["id_canton"].empty_label = "Seleccione un cantón"
+        if "fecha_nacimiento_est" in self.fields:
+            self.fields["fecha_nacimiento_est"].widget.format = "%Y-%m-%d"
 
     def full_clean(self):
         super().full_clean()
@@ -110,7 +120,7 @@ class EstudianteForm(AccessibleModelForm):
     )
     fecha_nacimiento_est = forms.DateField(
         label="Fecha de nacimiento",
-        widget=forms.DateInput(attrs={"type": "date", "autocomplete": "bday"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date", "autocomplete": "bday"}),
     )
     estado_est = forms.ChoiceField(
         choices=(("ACTIVO", "Activo"), ("INACTIVO", "Inactivo")),
