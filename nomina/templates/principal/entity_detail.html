@@ -1,0 +1,11 @@
+{% extends "principal/plantillaPrincipal.html" %}
+{% block title %}Detalle de {{ entity_label|lower }} · Octavo{% endblock %}
+{% block contenido %}
+<section class="page-heading">
+  <div><p class="eyebrow">{{ entity_plural }}</p><h1>Detalle de {{ entity_label|lower }}</h1><p class="text-secondary mb-0">Información completa del registro seleccionado.</p></div>
+  <div class="heading-actions"><a class="btn btn-outline-secondary" href="{{ list_url }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Volver</a><a class="btn btn-primary" href="{{ edit_url }}"><i class="bi bi-pencil" aria-hidden="true"></i> Editar</a></div>
+</section>
+<section class="panel-card detail-card"><dl class="detail-grid">{% for label, value in details %}<div class="detail-item"><dt>{{ label }}</dt><dd>{{ value|default:"—" }}</dd></div>{% endfor %}</dl>
+  <div class="detail-footer"><form method="post" action="{{ delete_url }}" class="delete-form" data-confirm-delete="{{ entity_label|lower }}">{% csrf_token %}<button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash3" aria-hidden="true"></i> Eliminar registro</button></form></div>
+</section>
+{% endblock %}
