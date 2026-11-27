@@ -13,6 +13,9 @@ class TbCanton(models.Model):
     nombre_canton = models.CharField(max_length=100, blank=True, null=True)
     id_provincia = models.ForeignKey('TbProvincia', models.DO_NOTHING, db_column='id_provincia', blank=True, null=True)
 
+    def __str__(self):
+        return self.nombre_canton or f"Cantón {self.id_canton}"
+
     class Meta:
         managed = False
         db_table = 'tb_canton'
@@ -30,6 +33,9 @@ class TbEstudiantes(models.Model):
     fecha_actualizacion_est = models.DateTimeField(blank=True, null=True)
     estado_est = models.CharField(max_length=25, blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.apellido_est}, {self.nombre_est}"
+
     class Meta:
         managed = False
         db_table = 'tb_estudiantes'
@@ -38,6 +44,9 @@ class TbEstudiantes(models.Model):
 class TbProvincia(models.Model):
     id_provincia = models.IntegerField(primary_key=True)
     nombre_provincia = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre_provincia or f"Provincia {self.id_provincia}"
 
     class Meta:
         managed = False
@@ -51,6 +60,9 @@ class TbUniversidades(models.Model):
     creacion_uni = models.DateTimeField(blank=True, null=True)
     actualizacion_uni = models.DateTimeField(blank=True, null=True)
     estado_uni = models.CharField(max_length=25, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre_uni or f"Universidad {self.id_uni}"
 
     class Meta:
         managed = False
