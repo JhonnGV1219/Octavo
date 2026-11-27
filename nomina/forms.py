@@ -18,10 +18,17 @@ class AccessibleModelForm(forms.ModelForm):
             else:
                 widget.attrs.setdefault("class", "form-control")
             widget.attrs.setdefault("autocomplete", "off")
-            if field.errors:
-                widget.attrs["class"] = "{} is-invalid".format(widget.attrs.get("class", "")).strip()
             if name == "fecha_nacimiento_est":
                 widget.attrs.setdefault("max", timezone.localdate().isoformat())
+
+    def full_clean(self):
+        super().full_clean()
+        for name, errors in self.errors.items():
+            if errors:
+                widget = self.fields[name].widget
+                classes = set(widget.attrs.get("class", "").split())
+                classes.add("is-invalid")
+                widget.attrs["class"] = " ".join(classes)
 
 
 class ProvinciaForm(AccessibleModelForm):
