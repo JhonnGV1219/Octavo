@@ -24,10 +24,11 @@ class AccessibleModelForm(forms.ModelForm):
     def full_clean(self):
         super().full_clean()
         for name, errors in self.errors.items():
-            if errors:
+            if name in self.fields and errors:
                 widget = self.fields[name].widget
-                classes = set(widget.attrs.get("class", "").split())
-                classes.add("is-invalid")
+                classes = widget.attrs.get("class", "").split()
+                if "is-invalid" not in classes:
+                    classes.append("is-invalid")
                 widget.attrs["class"] = " ".join(classes)
 
 
